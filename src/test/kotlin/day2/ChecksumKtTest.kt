@@ -32,4 +32,25 @@ class ChecksumKtTest {
         val checksum = computeChecksum(inputs)
         assertEquals(12, checksum)
     }
+
+    @Test
+    fun diff_words_should_give_commons_letters_of_2_ids() {
+        val commonPart = commonPartOfWords("fghij", "fguij")
+        assertEquals("fgij", commonPart)
+    }
+
+    @Test
+    fun it_should_give_common_parts_of_ids_with_only_1_letter_diff() {
+        val inputs = listOf(
+            "abcde",
+            "fghij",
+            "klmno",
+            "pqrst",
+            "fguij",
+            "axcye",
+            "wvxyz"
+        )
+        val commonPartOfCorrectIds = findCommonPartOfCorrectIds(inputs)
+        assertEquals("fgij", commonPartOfCorrectIds)
+    }
 }
