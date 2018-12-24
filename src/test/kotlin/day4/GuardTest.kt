@@ -13,4 +13,13 @@ class GuardTest {
 
         assertEquals(24, guard.minuteSpentAsleepMost())
     }
+
+    @Test
+    fun guard_with_2_shifts_should_give_total_minutes_asleep() {
+        val guard = Guard()
+        guard.addShift(Shift(SleepPeriod(5, 24), SleepPeriod(30, 54)))
+        guard.addShift(Shift(SleepPeriod(24, 28)))
+
+        assertEquals(50, guard.totalMinutesSpentAsleep())
+    }
 }

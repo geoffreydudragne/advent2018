@@ -1,3 +1,3 @@
 package day4
 
-class SleepPeriod(val begin: Int, val end: Int)
+data class SleepPeriod(val begin: Int, val end: Int)
