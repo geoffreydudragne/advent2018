@@ -11,17 +11,31 @@ fun main(args: Array<String>) {
 class GuardSleepStrategy {
 
     fun parseGardRecord(records: List<String>): Collection<Guard> {
-        val guards = HashMap<Int, Guard>()
+        val guards = HashMap<String, Guard>()
 
         var currentGuard = Guard()
-        var currentShift = Shift()
-        var currentBegin = 0
-        var currentEnd = 0
+        var currentShit = ArrayList<SleepPeriod>()
+        var currentFallAsleepTime = 0
         for (record in records) {
             if (record.contains("begins shift")) {
-                currentGuard = Guard()
+                currentGuard.addShift(Shift(*currentShit.toTypedArray()))
+                val guardNumber = getGuardNumberFromRecord(record)
+                currentGuard = guards.computeIfAbsent(guardNumber) {Guard()}
+                currentShit = ArrayList()
+            } else if (record.contains("falls asleep")) {
+                currentFallAsleepTime = getMinuteFromTimedRecord(record)
+            } else if (record.contains("wakes up")) {
+                val wakeUpTime = getMinuteFromTimedRecord(record) - 1
+                currentShit.add(SleepPeriod(currentFallAsleepTime, wakeUpTime))
             }
         }
         return guards.values
     }
+}
+
+fun getMinuteFromTimedRecord(timedRecord: String) = timedRecord.slice(15..16).toInt()
+fun getGuardNumberFromRecord(text: String): String {
+    val regex = Regex("Guard #(\\d+) begins shift")
+    val result = regex.find(text)
+    return result!!.groupValues[1]
 }

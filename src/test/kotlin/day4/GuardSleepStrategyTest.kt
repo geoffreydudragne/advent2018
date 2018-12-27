@@ -2,6 +2,7 @@ package day4
 
 import org.assertj.core.api.Assertions
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class GuardSleepStrategyTest {
 
@@ -29,10 +30,17 @@ class GuardSleepStrategyTest {
     }
 
     @Test
-    fun test_regexps() {
-        val text = "Guard #10 begins shift"
-        val regex = Regex("Guard #(\\d+) begins shift")
-        val result = regex.find(text)
-        result?.
+    fun test_regexps_get_guard_number() {
+        val text = "[1518-11-01 00:00] Guard #10 begins shift"
+        val guardNumber = getGuardNumberFromRecord(text)
+        assertEquals("10", guardNumber)
+    }
+
+    @Test
+    fun regexp_to_get_time() {
+        val timedRecord = "[1518-11-01 00:25] wakes up"
+        val minute = getMinuteFromTimedRecord(timedRecord)
+        assertEquals(25, minute)
     }
 }
+
